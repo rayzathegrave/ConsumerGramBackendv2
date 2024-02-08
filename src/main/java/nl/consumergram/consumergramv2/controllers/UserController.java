@@ -51,6 +51,19 @@ public class UserController {
                 .buildAndExpand(newUsername).toUri();
         return ResponseEntity.created(location).build();
     }
+
+    @PostMapping ("/admin")
+    public ResponseEntity<UserDto> createAdmin(@RequestBody UserDto dto) {;
+        // Let op: het password van een nieuwe gebruiker wordt in deze code nog niet encrypted opgeslagen.
+        // Je kan dus (nog) niet inloggen met een nieuwe user.
+        String newUsername = userService.createUser(dto);
+        userService.addAuthority(newUsername, "ROLE_ADMIN");
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
+                .buildAndExpand(newUsername).toUri();
+        return ResponseEntity.created(location).build();
+    }
+
+
     //    Een HTTP PUT-endpoint op het pad "/users/{username}".
 //    Het bijwerkt een bestaande gebruiker op basis van de opgegeven gebruikersnaam en het meegeleverde
 //    UserDto-object in het verzoek.
