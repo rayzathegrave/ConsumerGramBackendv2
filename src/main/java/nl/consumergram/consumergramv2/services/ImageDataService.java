@@ -61,4 +61,17 @@ public class ImageDataService {
             return "Gebruiker niet gevonden".getBytes();
         }
     }
+
+    public void deleteImage(User user) {
+        if (user.getImageData() != null) {
+            // Verwijder de afbeeldingsgegevens uit de database
+            imageDataRepository.delete(user.getImageData());
+            // Zet de referentie naar de afbeelding van de gebruiker op null
+            user.setImage(null);
+            userRepository.save(user);
+        }
+
+
+    }
+
 }

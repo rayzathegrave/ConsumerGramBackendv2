@@ -5,11 +5,15 @@ package nl.consumergram.consumergramv2.models;
 
 
 import jakarta.persistence.*;
+import lombok.Data;
+
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 //De @Entity-annotatie geeft aan dat dit een JPA-entity is, wat betekent dat het overeenkomt met een tabel in de database.
 @Entity
+@Data
 
 //De @Table(name = "users")-annotatie specificeert de naam van de database-tabel waarmee deze entiteit overeenkomt.
 @Table(name = "users")
@@ -59,7 +63,12 @@ public class User {
     private ImageData imageData;
 
 
-//    De getters en setters worden gebruikt om toegang te krijgen tot en wijzigingen
+
+    @OneToMany(mappedBy = "user")
+    private List<BlogPost> blogPosts;
+
+
+    //    De getters en setters worden gebruikt om toegang te krijgen tot en wijzigingen
 //    aan te brengen in de eigenschappen van het gebruikersobject.
     public String getUsername() { return username; }
     public void setUsername(String username) {

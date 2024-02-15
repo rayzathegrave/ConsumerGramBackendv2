@@ -50,6 +50,18 @@ public class ImageController {
         return  ResponseEntity.ok().contentType(mediaType).body(image);
     }
 
+    @DeleteMapping("/{username}")
+    public ResponseEntity<String> deleteImage(@PathVariable String username) {
+        Optional<User> user = userRepository.findById(username);
+        if (user.isPresent()) {
+            // Verwijder de profielafbeelding van de gebruiker als deze bestaat
+            imageDataService.deleteImage(user.get());
+            return ResponseEntity.ok("Profielafbeelding van gebruiker " + username + " succesvol verwijderd.");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 //    Op deze manier werkt het op de JWT token
 //    @GetMapping
 //    public ResponseEntity<Object> downloadImage(UserDetails userDetails) throws IOException {
