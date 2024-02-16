@@ -63,7 +63,6 @@ public class User {
     private ImageData imageData;
 
 
-
     @OneToMany(mappedBy = "user")
     private List<BlogPost> blogPosts;
 
