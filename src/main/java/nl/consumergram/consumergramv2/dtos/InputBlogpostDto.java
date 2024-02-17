@@ -1,6 +1,9 @@
 package nl.consumergram.consumergramv2.dtos;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.nio.channels.MulticastChannel;
 
 @Data
 public class InputBlogpostDto {
@@ -11,5 +14,6 @@ public class InputBlogpostDto {
     private String caption;
 //    private String content;
     private String username;
+    private MultipartFile file;
 
 }

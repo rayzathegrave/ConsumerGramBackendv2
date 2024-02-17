@@ -9,6 +9,7 @@ import nl.consumergram.consumergramv2.repositories.BlogPostRepository;
 import nl.consumergram.consumergramv2.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,10 +37,11 @@ public class BlogPostService {
         return blogPostRepository.findAll();
     }
 
-    public OutputBlogpostDto createBlogPost(InputBlogpostDto inputBlogpostDto) {
+    public OutputBlogpostDto createBlogPost(InputBlogpostDto inputBlogpostDto) throws IOException {
         BlogPost blogPost = new BlogPost();
 
         blogPost.setCaption(inputBlogpostDto.getCaption());
+        blogPost.setImageData(inputBlogpostDto.getFile().getBytes());
 
         if (inputBlogpostDto.getUsername()!=null) {
             User user = new User();
@@ -54,6 +56,7 @@ public class BlogPostService {
 //        outputBlogpostDto.setContent(blogPost.getContent());
         outputBlogpostDto.setUsername(blogPost.getUser().getUsername());
         outputBlogpostDto.setId(blogPost.getId());
+        outputBlogpostDto.setFileContent(inputBlogpostDto.getFile().getBytes());
         return outputBlogpostDto;
     }
 
@@ -83,7 +86,7 @@ public class BlogPostService {
 //            outputBlogpostDto.setTitle(blogPost.getTitle());
 //            outputBlogpostDto.setSubtitle(blogPost.getSubtitle());
             outputBlogpostDto.setCaption(blogPost.getCaption());
-//            outputBlogpostDto.setContent(blogPost.getContent());
+            outputBlogpostDto.setFileContent(blogPost.getImageData());
             outputBlogpostDto.setUsername(blogPost.getUser().getUsername());
             outputBlogpostDto.setId(blogPost.getId());
             outputBlogpostDtoList.add(outputBlogpostDto);

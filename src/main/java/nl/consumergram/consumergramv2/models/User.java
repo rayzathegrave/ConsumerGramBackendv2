@@ -6,6 +6,7 @@ package nl.consumergram.consumergramv2.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.Set;
 //De @Entity-annotatie geeft aan dat dit een JPA-entity is, wat betekent dat het overeenkomt met een tabel in de database.
 @Entity
 @Data
+@Setter
 
 //De @Table(name = "users")-annotatie specificeert de naam van de database-tabel waarmee deze entiteit overeenkomt.
 @Table(name = "users")
@@ -69,27 +71,12 @@ public class User {
 
     //    De getters en setters worden gebruikt om toegang te krijgen tot en wijzigingen
 //    aan te brengen in de eigenschappen van het gebruikersobject.
-    public String getUsername() { return username; }
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    public boolean isEnabled() { return enabled;}
-    public void setEnabled(boolean enabled) { this.enabled = enabled; }
-    public String getApikey() { return apikey; }
-    public void setApikey(String apikey) { this.apikey = apikey; }
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email;}
+
+
 
 //    Set<Authority> authorities-verzameling:
 //    Dit is een set van Authority-objecten die de rollen of rechten van de gebruiker vertegenwoordigen.
 
-    public Set<Authority> getAuthorities() { return authorities; }
 
 //    De addAuthority en removeAuthority-methoden worden gebruikt om autoriteiten toe te voegen of te verwijderen.
     public void addAuthority(Authority authority) {
@@ -99,10 +86,5 @@ public class User {
         this.authorities.remove(authority);
     }
 
-    public void setImage(ImageData imgData) {
-        this.imageData = imgData;
-    }
-    public ImageData getImageData() {
-        return imageData;
-    }
+
 }
