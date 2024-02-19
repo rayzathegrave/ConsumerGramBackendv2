@@ -3,14 +3,18 @@ package nl.consumergram.consumergramv2.controllers;
 import nl.consumergram.consumergramv2.dtos.InputBlogpostDto;
 import nl.consumergram.consumergramv2.dtos.OutputBlogpostDto;
 import nl.consumergram.consumergramv2.models.BlogPost;
+import nl.consumergram.consumergramv2.models.ImageData;
+import nl.consumergram.consumergramv2.models.User;
 import nl.consumergram.consumergramv2.services.BlogPostService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -39,7 +43,7 @@ public class BlogPostController {
     @GetMapping
     public ResponseEntity<List<OutputBlogpostDto>> getAllBlogs() {
         List<OutputBlogpostDto> blogPost = blogPostService.getAllBlogs();
-        return ResponseEntity.ok(blogPost);
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(blogPost);
     }
 
 //    @PostMapping("/{username}")
@@ -47,6 +51,7 @@ public class BlogPostController {
 //        OutputBlogpostDto createdPost = blogPostService.createBlogPost(blogPost);
 //        return ResponseEntity.status(HttpStatus.CREATED).body(createdPost);
 //    }
+
 
     @PostMapping("/{username}")
     public ResponseEntity<OutputBlogpostDto> createBlogPost(@RequestPart("file") MultipartFile file,
@@ -62,6 +67,8 @@ public class BlogPostController {
         OutputBlogpostDto createdPost = blogPostService.createBlogPost(blogPost);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdPost);
     }
+
+
 
 
 }

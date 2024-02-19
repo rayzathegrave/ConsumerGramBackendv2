@@ -7,6 +7,7 @@ import nl.consumergram.consumergramv2.models.BlogPost;
 import nl.consumergram.consumergramv2.models.User;
 import nl.consumergram.consumergramv2.repositories.BlogPostRepository;
 import nl.consumergram.consumergramv2.repositories.UserRepository;
+import nl.consumergram.consumergramv2.utils.ImageUtil;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -42,6 +43,7 @@ public class BlogPostService {
 
         blogPost.setCaption(inputBlogpostDto.getCaption());
         blogPost.setImageData(inputBlogpostDto.getFile().getBytes());
+        blogPost.setImageData(ImageUtil.compressImage(inputBlogpostDto.getFile().getBytes()));
 
         if (inputBlogpostDto.getUsername()!=null) {
             User user = new User();
@@ -56,7 +58,8 @@ public class BlogPostService {
 //        outputBlogpostDto.setContent(blogPost.getContent());
         outputBlogpostDto.setUsername(blogPost.getUser().getUsername());
         outputBlogpostDto.setId(blogPost.getId());
-        outputBlogpostDto.setFileContent(inputBlogpostDto.getFile().getBytes());
+//        outputBlogpostDto.setFileContent(inputBlogpostDto.getFile().getBytes());
+        outputBlogpostDto.setFileContent(ImageUtil.decompressImage(blogPost.getImageData()));
         return outputBlogpostDto;
     }
 
@@ -73,6 +76,7 @@ public class BlogPostService {
 //        outputBlogpostDto.setContent(blogPost.getContent());
         outputBlogpostDto.setUsername(blogPost.getUser().getUsername());
         outputBlogpostDto.setId(blogPost.getId());
+        outputBlogpostDto.setFileContent(ImageUtil.decompressImage(blogPost.getImageData()));
         return outputBlogpostDto;
     }
 
@@ -86,7 +90,8 @@ public class BlogPostService {
 //            outputBlogpostDto.setTitle(blogPost.getTitle());
 //            outputBlogpostDto.setSubtitle(blogPost.getSubtitle());
             outputBlogpostDto.setCaption(blogPost.getCaption());
-            outputBlogpostDto.setFileContent(blogPost.getImageData());
+//            outputBlogpostDto.setFileContent(blogPost.getImageData());
+            outputBlogpostDto.setFileContent(ImageUtil.decompressImage(blogPost.getImageData()));
             outputBlogpostDto.setUsername(blogPost.getUser().getUsername());
             outputBlogpostDto.setId(blogPost.getId());
             outputBlogpostDtoList.add(outputBlogpostDto);
@@ -109,6 +114,7 @@ public class BlogPostService {
 //            outputBlogpostDto.setContent(blogPost.getContent());
             outputBlogpostDto.setUsername(blogPost.getUser().getUsername());
             outputBlogpostDto.setId(blogPost.getId());
+            outputBlogpostDto.setFileContent(ImageUtil.decompressImage(blogPost.getImageData()));
             outputBlogpostDtoList.add(outputBlogpostDto);
         };
         return outputBlogpostDtoList;
