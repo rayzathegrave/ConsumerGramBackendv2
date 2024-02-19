@@ -31,6 +31,8 @@ public class ImageController {
 //        image is de naam van de file die je terug krijgt
         return ResponseEntity.ok("file had been uploaded, " + image);
     }
+
+
     //    @GetMapping("/{username}")
 //    public ResponseEntity<Object> downloadImage(@PathVariable("username") String username) throws IOException {
 //        byte[] image = imageDataService.downloadImage(username);
