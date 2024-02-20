@@ -10,4 +10,5 @@ public class OutputBlogpostDto {
     private String caption;
     private String username;
     private byte[] fileContent; // replace MultipartFile with byte[]
+    private String price;
 }

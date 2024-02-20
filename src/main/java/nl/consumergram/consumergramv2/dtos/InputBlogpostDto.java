@@ -15,5 +15,6 @@ public class InputBlogpostDto {
 //    private String content;
     private String username;
     private MultipartFile file;
+    private String price;
 
 }

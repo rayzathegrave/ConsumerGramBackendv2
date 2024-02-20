@@ -15,6 +15,7 @@ public class BlogPost {
     private Long id;
     private String name;
     private String type;
+    private String price;
 
     @Lob
     private byte[] imageData;

@@ -44,6 +44,8 @@ public class BlogPostService {
         blogPost.setCaption(inputBlogpostDto.getCaption());
         blogPost.setImageData(inputBlogpostDto.getFile().getBytes());
         blogPost.setImageData(ImageUtil.compressImage(inputBlogpostDto.getFile().getBytes()));
+        blogPost.setPrice(inputBlogpostDto.getPrice()); // set the price in BlogPost
+
 
         if (inputBlogpostDto.getUsername()!=null) {
             User user = new User();
@@ -60,6 +62,7 @@ public class BlogPostService {
         outputBlogpostDto.setId(blogPost.getId());
 //        outputBlogpostDto.setFileContent(inputBlogpostDto.getFile().getBytes());
         outputBlogpostDto.setFileContent(ImageUtil.decompressImage(blogPost.getImageData()));
+        outputBlogpostDto.setPrice(blogPost.getPrice());
         return outputBlogpostDto;
     }
 
@@ -76,6 +79,7 @@ public class BlogPostService {
 //        outputBlogpostDto.setContent(blogPost.getContent());
         outputBlogpostDto.setUsername(blogPost.getUser().getUsername());
         outputBlogpostDto.setId(blogPost.getId());
+        outputBlogpostDto.setPrice(blogPost.getPrice());
         outputBlogpostDto.setFileContent(ImageUtil.decompressImage(blogPost.getImageData()));
         return outputBlogpostDto;
     }
@@ -94,6 +98,7 @@ public class BlogPostService {
             outputBlogpostDto.setFileContent(ImageUtil.decompressImage(blogPost.getImageData()));
             outputBlogpostDto.setUsername(blogPost.getUser().getUsername());
             outputBlogpostDto.setId(blogPost.getId());
+            outputBlogpostDto.setPrice(blogPost.getPrice());
             outputBlogpostDtoList.add(outputBlogpostDto);
         };
         return outputBlogpostDtoList;
@@ -114,6 +119,7 @@ public class BlogPostService {
 //            outputBlogpostDto.setContent(blogPost.getContent());
             outputBlogpostDto.setUsername(blogPost.getUser().getUsername());
             outputBlogpostDto.setId(blogPost.getId());
+            outputBlogpostDto.setPrice(blogPost.getPrice());
             outputBlogpostDto.setFileContent(ImageUtil.decompressImage(blogPost.getImageData()));
             outputBlogpostDtoList.add(outputBlogpostDto);
         };

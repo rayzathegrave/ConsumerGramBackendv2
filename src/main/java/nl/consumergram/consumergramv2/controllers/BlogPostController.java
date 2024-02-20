@@ -56,14 +56,17 @@ public class BlogPostController {
     @PostMapping("/{username}")
     public ResponseEntity<OutputBlogpostDto> createBlogPost(@RequestPart("file") MultipartFile file,
                                                             @RequestPart("username") String username,
-                                                            @RequestPart("caption") String caption) throws IOException {
+                                                            @RequestPart("caption") String caption,
+                                                            @RequestPart("price") String price) throws IOException {
         System.out.println("file: " + file);
         System.out.println("username: " + username);
         System.out.println("caption: " + caption);
+        System.out.println("price: " + price);
         InputBlogpostDto blogPost = new InputBlogpostDto();
         blogPost.setCaption(caption);
         blogPost.setUsername(username);
         blogPost.setFile(file);
+        blogPost.setPrice(price);
         OutputBlogpostDto createdPost = blogPostService.createBlogPost(blogPost);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdPost);
     }
