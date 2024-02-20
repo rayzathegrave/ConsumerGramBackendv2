@@ -1,11 +1,14 @@
 package nl.consumergram.consumergramv2.controllers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.consumergram.consumergramv2.dtos.InputBlogpostDto;
 import nl.consumergram.consumergramv2.dtos.OutputBlogpostDto;
 import nl.consumergram.consumergramv2.models.BlogPost;
 import nl.consumergram.consumergramv2.models.ImageData;
 import nl.consumergram.consumergramv2.models.User;
 import nl.consumergram.consumergramv2.services.BlogPostService;
+import nl.consumergram.consumergramv2.utils.Category;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 @RestController
@@ -57,7 +61,13 @@ public class BlogPostController {
     public ResponseEntity<OutputBlogpostDto> createBlogPost(@RequestPart("file") MultipartFile file,
                                                             @RequestPart("username") String username,
                                                             @RequestPart("caption") String caption,
-                                                            @RequestPart("price") String price) throws IOException {
+                                                            @RequestPart("price") String price,
+                                                            @RequestPart("categories") String categoriesJson) throws IOException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        Set<Category> categories = objectMapper.readValue(categoriesJson, new TypeReference<Set<Category>>() {});
+
+
         System.out.println("file: " + file);
         System.out.println("username: " + username);
         System.out.println("caption: " + caption);
@@ -67,6 +77,7 @@ public class BlogPostController {
         blogPost.setUsername(username);
         blogPost.setFile(file);
         blogPost.setPrice(price);
+        blogPost.setCategories(categories);
         OutputBlogpostDto createdPost = blogPostService.createBlogPost(blogPost);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdPost);
     }

@@ -4,6 +4,11 @@ import jakarta.persistence.*;
 
 
 import lombok.Data;
+import nl.consumergram.consumergramv2.utils.Category;
+
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Data
 @Entity
@@ -20,7 +25,8 @@ public class BlogPost {
     @Lob
     private byte[] imageData;
 
-
+    @Column(name = "yes_no_option")
+    private boolean yesNoOption;
 
     @Column(columnDefinition = "TEXT")
     private String caption;
@@ -34,6 +40,11 @@ public class BlogPost {
     private User user;
 
 
+    @ElementCollection(targetClass = Category.class)
+    @CollectionTable(name = "blog_post_categories", joinColumns = @JoinColumn(name = "blog_post_id"))
+    @Column(name = "category")
+    @Enumerated(EnumType.STRING)
+    private Set<Category> categories = new HashSet<>();
 
 
 }

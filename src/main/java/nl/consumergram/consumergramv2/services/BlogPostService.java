@@ -46,6 +46,8 @@ public class BlogPostService {
         blogPost.setImageData(ImageUtil.compressImage(inputBlogpostDto.getFile().getBytes()));
         blogPost.setPrice(inputBlogpostDto.getPrice()); // set the price in BlogPost
 
+        blogPost.setCategories(inputBlogpostDto.getCategories());
+
 
         if (inputBlogpostDto.getUsername()!=null) {
             User user = new User();
@@ -63,6 +65,9 @@ public class BlogPostService {
 //        outputBlogpostDto.setFileContent(inputBlogpostDto.getFile().getBytes());
         outputBlogpostDto.setFileContent(ImageUtil.decompressImage(blogPost.getImageData()));
         outputBlogpostDto.setPrice(blogPost.getPrice());
+
+        outputBlogpostDto.setCategories(blogPost.getCategories());
+
         return outputBlogpostDto;
     }
 
@@ -81,6 +86,7 @@ public class BlogPostService {
         outputBlogpostDto.setId(blogPost.getId());
         outputBlogpostDto.setPrice(blogPost.getPrice());
         outputBlogpostDto.setFileContent(ImageUtil.decompressImage(blogPost.getImageData()));
+        outputBlogpostDto.setCategories(blogPost.getCategories());
         return outputBlogpostDto;
     }
 
@@ -94,12 +100,19 @@ public class BlogPostService {
 //            outputBlogpostDto.setTitle(blogPost.getTitle());
 //            outputBlogpostDto.setSubtitle(blogPost.getSubtitle());
             outputBlogpostDto.setCaption(blogPost.getCaption());
+
+            outputBlogpostDto.setCategories(blogPost.getCategories());
+
+
+
 //            outputBlogpostDto.setFileContent(blogPost.getImageData());
             outputBlogpostDto.setFileContent(ImageUtil.decompressImage(blogPost.getImageData()));
             outputBlogpostDto.setUsername(blogPost.getUser().getUsername());
             outputBlogpostDto.setId(blogPost.getId());
             outputBlogpostDto.setPrice(blogPost.getPrice());
             outputBlogpostDtoList.add(outputBlogpostDto);
+
+            outputBlogpostDto.setCategories(blogPost.getCategories());
         };
         return outputBlogpostDtoList;
     }
@@ -122,6 +135,7 @@ public class BlogPostService {
             outputBlogpostDto.setPrice(blogPost.getPrice());
             outputBlogpostDto.setFileContent(ImageUtil.decompressImage(blogPost.getImageData()));
             outputBlogpostDtoList.add(outputBlogpostDto);
+            outputBlogpostDto.setCategories(blogPost.getCategories());
         };
         return outputBlogpostDtoList;
     }
