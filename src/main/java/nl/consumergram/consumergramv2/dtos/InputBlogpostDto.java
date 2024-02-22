@@ -19,5 +19,6 @@ public class InputBlogpostDto {
     private MultipartFile file;
     private String price;
     private Set<Category> categories;
+    private boolean yesNoOption;
 
 }

@@ -9,6 +9,7 @@ import nl.consumergram.consumergramv2.repositories.BlogPostRepository;
 import nl.consumergram.consumergramv2.repositories.UserRepository;
 import nl.consumergram.consumergramv2.utils.ImageUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,6 +21,9 @@ public class BlogPostService {
 
     private final BlogPostRepository blogPostRepository;
     private final UserRepository userRepository;
+
+
+
 
 
     public BlogPostService(BlogPostRepository blogPostRepository, UserRepository userRepository) {
@@ -48,6 +52,8 @@ public class BlogPostService {
 
         blogPost.setCategories(inputBlogpostDto.getCategories());
 
+        blogPost.setYesNoOption(inputBlogpostDto.isYesNoOption());
+
 
         if (inputBlogpostDto.getUsername()!=null) {
             User user = new User();
@@ -68,10 +74,13 @@ public class BlogPostService {
 
         outputBlogpostDto.setCategories(blogPost.getCategories());
 
+        outputBlogpostDto.setYesNoOption(blogPost.isYesNoOption());
+
         return outputBlogpostDto;
     }
 
 
+    @Transactional
     public OutputBlogpostDto getBlogPost(String username, Long id) {
 
         BlogPost blogPost = blogPostRepository.findByIdAndUser_Username(id, username)
@@ -87,9 +96,11 @@ public class BlogPostService {
         outputBlogpostDto.setPrice(blogPost.getPrice());
         outputBlogpostDto.setFileContent(ImageUtil.decompressImage(blogPost.getImageData()));
         outputBlogpostDto.setCategories(blogPost.getCategories());
+        outputBlogpostDto.setYesNoOption(blogPost.isYesNoOption());
         return outputBlogpostDto;
     }
 
+    @Transactional
     public List<OutputBlogpostDto> getAllBlogs() {
         List<BlogPost> blogPostList = blogPostRepository.findAll();
 
@@ -102,9 +113,8 @@ public class BlogPostService {
             outputBlogpostDto.setCaption(blogPost.getCaption());
 
             outputBlogpostDto.setCategories(blogPost.getCategories());
-
-
-
+            outputBlogpostDto.setYesNoOption(blogPost.isYesNoOption());
+            
 //            outputBlogpostDto.setFileContent(blogPost.getImageData());
             outputBlogpostDto.setFileContent(ImageUtil.decompressImage(blogPost.getImageData()));
             outputBlogpostDto.setUsername(blogPost.getUser().getUsername());
@@ -112,12 +122,13 @@ public class BlogPostService {
             outputBlogpostDto.setPrice(blogPost.getPrice());
             outputBlogpostDtoList.add(outputBlogpostDto);
 
-            outputBlogpostDto.setCategories(blogPost.getCategories());
+//            outputBlogpostDto.setCategories(blogPost.getCategories());
+//            outputBlogpostDto.setYesNoOption(blogPost.isYesNoOption());
         };
         return outputBlogpostDtoList;
     }
 
-
+    @Transactional
     public List<OutputBlogpostDto> getBlogPostByUsername(String username) {
         List<BlogPost> blogPostList = blogPostRepository.findByUser_Username(username)
                 .orElseThrow(() -> new EntityNotFoundException("Blog post not found with username " + username));
@@ -136,6 +147,7 @@ public class BlogPostService {
             outputBlogpostDto.setFileContent(ImageUtil.decompressImage(blogPost.getImageData()));
             outputBlogpostDtoList.add(outputBlogpostDto);
             outputBlogpostDto.setCategories(blogPost.getCategories());
+            outputBlogpostDto.setYesNoOption(blogPost.isYesNoOption());
         };
         return outputBlogpostDtoList;
     }

@@ -15,4 +15,5 @@ public class OutputBlogpostDto {
     private byte[] fileContent; // replace MultipartFile with byte[]
     private String price;
     private Set<Category> categories;
+    private boolean yesNoOption;
 }

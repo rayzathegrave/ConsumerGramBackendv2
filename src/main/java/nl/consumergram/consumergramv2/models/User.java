@@ -64,6 +64,8 @@ public class User {
     @OneToOne(mappedBy = "user")
     private ImageData imageData;
 
+    @OneToOne(mappedBy = "user")
+    private UserProfile userProfile;
 
     @OneToMany(mappedBy = "user")
     private List<BlogPost> blogPosts;

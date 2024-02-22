@@ -2,6 +2,7 @@ package nl.consumergram.consumergramv2.controllers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
 import nl.consumergram.consumergramv2.dtos.InputBlogpostDto;
 import nl.consumergram.consumergramv2.dtos.OutputBlogpostDto;
 import nl.consumergram.consumergramv2.models.BlogPost;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -37,6 +39,7 @@ public class BlogPostController {
         OutputBlogpostDto blogPost = blogPostService.getBlogPost(username, id);
         return ResponseEntity.ok(blogPost);
     }
+
 
     @GetMapping("/{username}")
     public ResponseEntity <List<OutputBlogpostDto>> getBlogPostByUsername(@PathVariable("username") String username) {
@@ -62,11 +65,15 @@ public class BlogPostController {
                                                             @RequestPart("username") String username,
                                                             @RequestPart("caption") String caption,
                                                             @RequestPart("price") String price,
+//                                                          @RequestPart("yesNoOption") boolean yesNoOption,
+                                                            @RequestPart("yesNoOption") String yesNoOptionStr,
                                                             @RequestPart("categories") String categoriesJson) throws IOException {
 
         ObjectMapper objectMapper = new ObjectMapper();
-        Set<Category> categories = objectMapper.readValue(categoriesJson, new TypeReference<Set<Category>>() {});
-
+        Set<Category> categories = new HashSet<>();
+        Category c1 = Category.valueOf(categoriesJson);
+        categories.add(c1);
+        boolean yesNoOption = Boolean.parseBoolean(yesNoOptionStr);
 
         System.out.println("file: " + file);
         System.out.println("username: " + username);
@@ -77,6 +84,7 @@ public class BlogPostController {
         blogPost.setUsername(username);
         blogPost.setFile(file);
         blogPost.setPrice(price);
+        blogPost.setYesNoOption(yesNoOption);
         blogPost.setCategories(categories);
         OutputBlogpostDto createdPost = blogPostService.createBlogPost(blogPost);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdPost);
