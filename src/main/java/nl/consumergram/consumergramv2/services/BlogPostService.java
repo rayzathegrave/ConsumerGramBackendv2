@@ -8,6 +8,8 @@ import nl.consumergram.consumergramv2.models.User;
 import nl.consumergram.consumergramv2.repositories.BlogPostRepository;
 import nl.consumergram.consumergramv2.repositories.UserRepository;
 import nl.consumergram.consumergramv2.utils.ImageUtil;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,9 +23,6 @@ public class BlogPostService {
 
     private final BlogPostRepository blogPostRepository;
     private final UserRepository userRepository;
-
-
-
 
 
     public BlogPostService(BlogPostRepository blogPostRepository, UserRepository userRepository) {
@@ -55,7 +54,7 @@ public class BlogPostService {
         blogPost.setYesNoOption(inputBlogpostDto.isYesNoOption());
 
 
-        if (inputBlogpostDto.getUsername()!=null) {
+        if (inputBlogpostDto.getUsername() != null) {
             User user = new User();
             user.setUsername(inputBlogpostDto.getUsername());
             blogPost.setUser(user);
@@ -114,7 +113,7 @@ public class BlogPostService {
 
             outputBlogpostDto.setCategories(blogPost.getCategories());
             outputBlogpostDto.setYesNoOption(blogPost.isYesNoOption());
-            
+
 //            outputBlogpostDto.setFileContent(blogPost.getImageData());
             outputBlogpostDto.setFileContent(ImageUtil.decompressImage(blogPost.getImageData()));
             outputBlogpostDto.setUsername(blogPost.getUser().getUsername());
@@ -124,7 +123,8 @@ public class BlogPostService {
 
 //            outputBlogpostDto.setCategories(blogPost.getCategories());
 //            outputBlogpostDto.setYesNoOption(blogPost.isYesNoOption());
-        };
+        }
+        ;
         return outputBlogpostDtoList;
     }
 
@@ -148,7 +148,26 @@ public class BlogPostService {
             outputBlogpostDtoList.add(outputBlogpostDto);
             outputBlogpostDto.setCategories(blogPost.getCategories());
             outputBlogpostDto.setYesNoOption(blogPost.isYesNoOption());
-        };
+        }
+        ;
         return outputBlogpostDtoList;
     }
+
+
+
+// ...
+
+    @PreAuthorize("#username == authentication.principal.username or hasRole('ROLE_ADMIN')")
+    public void deleteBlogPost(String username, Long id) {
+        BlogPost blogPost = blogPostRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Blog post not found"));
+
+        if (!blogPost.getUser().getUsername().equals(username)) {
+            throw new AccessDeniedException("You are not allowed to delete this blog post");
+        }
+
+        blogPostRepository.delete(blogPost);
+    }
+
+
 }

@@ -33,7 +33,6 @@ public class BlogPostController {
     }
 
 
-
     @GetMapping("/{username}/{id}")
     public ResponseEntity<OutputBlogpostDto> getBlogPost(@PathVariable("username") String username, @PathVariable("id") Long id) {
         OutputBlogpostDto blogPost = blogPostService.getBlogPost(username, id);
@@ -42,7 +41,7 @@ public class BlogPostController {
 
 
     @GetMapping("/{username}")
-    public ResponseEntity <List<OutputBlogpostDto>> getBlogPostByUsername(@PathVariable("username") String username) {
+    public ResponseEntity<List<OutputBlogpostDto>> getBlogPostByUsername(@PathVariable("username") String username) {
         List<OutputBlogpostDto> blogPost = blogPostService.getBlogPostByUsername(username);
         return ResponseEntity.ok(blogPost);
     }
@@ -91,6 +90,11 @@ public class BlogPostController {
     }
 
 
+    @DeleteMapping("/{username}/{id}")
+    public ResponseEntity<Void> deleteBlogPost(@PathVariable("username") String username, @PathVariable("id") Long id) {
+        blogPostService.deleteBlogPost(username, id);
+        return ResponseEntity.noContent().build();
+    }
 
 
 }
