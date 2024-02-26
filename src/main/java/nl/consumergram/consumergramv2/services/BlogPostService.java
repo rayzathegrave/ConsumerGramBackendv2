@@ -1,4 +1,5 @@
 package nl.consumergram.consumergramv2.services;
+import org.springframework.security.core.GrantedAuthority;
 
 import jakarta.persistence.EntityNotFoundException;
 import nl.consumergram.consumergramv2.dtos.InputBlogpostDto;
@@ -10,6 +11,9 @@ import nl.consumergram.consumergramv2.repositories.UserRepository;
 import nl.consumergram.consumergramv2.utils.ImageUtil;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -153,21 +157,27 @@ public class BlogPostService {
         return outputBlogpostDtoList;
     }
 
-
-
-// ...
-
-    @PreAuthorize("#username == authentication.principal.username or hasRole('ROLE_ADMIN')")
     public void deleteBlogPost(String username, Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         BlogPost blogPost = blogPostRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Blog post not found"));
-
-        if (!blogPost.getUser().getUsername().equals(username)) {
+        User user = userRepository.findById(username).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        if (user.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
+            // kijkt of ROLE_ADMIN is en doet verwijderen
+            blogPostRepository.delete(blogPost);
+        } else if (blogPost.getUser().getUsername().equals(username)) {
+            blogPostRepository.delete(blogPost);
+        } else {
+            // denied
             throw new AccessDeniedException("You are not allowed to delete this blog post");
         }
 
-        blogPostRepository.delete(blogPost);
     }
+
+
+
+
 
 
 }
