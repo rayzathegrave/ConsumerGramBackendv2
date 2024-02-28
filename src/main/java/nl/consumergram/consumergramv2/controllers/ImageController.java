@@ -33,16 +33,7 @@ public class ImageController {
     }
 
 
-    //    @GetMapping("/{username}")
-//    public ResponseEntity<Object> downloadImage(@PathVariable("username") String username) throws IOException {
-//        byte[] image = imageDataService.downloadImage(username);
-//        Optional<User> user = userRepository.findById(username);
-//        Optional<ImageData> dbImageData = imageDataRepository.findById(user.get().getImageData().getId());
-//        MediaType mediaType = MediaType.valueOf(dbImageData.get().getType());
-////        Hier kan je specifieke datatypen meegeven, zoals image/jpeg/PDF etc.
-////        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
-//        return ResponseEntity.ok().contentType(mediaType).body(image);
-//    }
+
     @GetMapping("/{username}")
     public ResponseEntity<Object> downloadImage (@PathVariable("username") String username) throws IOException {
         byte[] image = imageDataService.downloadImage(username);

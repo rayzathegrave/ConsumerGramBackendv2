@@ -7,6 +7,8 @@ package nl.consumergram.consumergramv2.models;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.HashSet;
 import java.util.List;
@@ -67,8 +69,14 @@ public class User {
     @OneToOne(mappedBy = "user")
     private UserProfile userProfile;
 
-    @OneToMany(mappedBy = "user")
+//    @OneToMany(mappedBy = "user")
+//    private List<BlogPost> blogPosts;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<BlogPost> blogPosts;
+
+
 
 
     //    De getters en setters worden gebruikt om toegang te krijgen tot en wijzigingen
@@ -87,6 +95,7 @@ public class User {
     public void removeAuthority(Authority authority) {
         this.authorities.remove(authority);
     }
+
 
 
 }
