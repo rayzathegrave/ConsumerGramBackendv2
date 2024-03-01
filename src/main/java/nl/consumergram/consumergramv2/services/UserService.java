@@ -2,8 +2,6 @@
 // logica en interactie met de database
 
 
-
-
 //Validatie:
 //        Voeg validatie toe voor invoergegevens in de createUser-methode om te controleren of vereiste velden zijn ingevuld en of het wachtwoord sterk genoeg is.
 //
@@ -39,13 +37,13 @@
 
 package nl.consumergram.consumergramv2.services;
 
+import jakarta.persistence.EntityNotFoundException;
 import nl.consumergram.consumergramv2.dtos.UserDto;
 import nl.consumergram.consumergramv2.exceptions.RecordNotFoundException;
 import nl.consumergram.consumergramv2.models.Authority;
 import nl.consumergram.consumergramv2.models.User;
 import nl.consumergram.consumergramv2.repositories.UserRepository;
 import nl.consumergram.consumergramv2.utils.RandomStringGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -113,12 +111,46 @@ public class UserService {
     }
 
     //    Update het wachtwoord van een gebruiker.
-    public void updateUser(String username, UserDto newUser) {
-        if (!userRepository.existsById(username)) throw new RecordNotFoundException();
-        User user = userRepository.findById(username).get();
-        user.setPassword(newUser.getPassword());
-        userRepository.save(user);
+//    public UserDto updateUser(String username, UserDto newUser) {
+//        if (!userRepository.existsById(username)) throw new RecordNotFoundException();
+//        User user = userRepository.findById(username).get();
+//        user.setPassword(newUser.getPassword());
+//        userRepository.save(user);
+//        return newUser;
+//    }
+
+
+    public UserDto updateUser(String username, UserDto dto) {
+        // Fetch the user from the database
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with username " + username));
+
+        // Update the user fields
+        user.setEmail(dto.getEmail());
+        user.setUsername(dto.getUsername());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+
+        // ... update other fields as necessary
+
+        // Save the updated user back to the database
+        User updatedUser = userRepository.save(user);
+
+        // Convert the updated User entity to UserDto and return it
+        UserDto updatedUserDto = convertToDto(updatedUser);
+        return updatedUserDto;
     }
+
+    public UserDto convertToDto(User user) {
+        UserDto userDto = new UserDto();
+        userDto.setUsername(user.getUsername());
+        userDto.setPassword(user.getPassword());
+        userDto.setEnabled(user.isEnabled());
+        userDto.setApikey(user.getApikey());
+        userDto.setEmail(user.getEmail());
+        userDto.setAuthorities(user.getAuthorities());
+        return userDto;
+    }
+
 
     //    Haalt de rollen (authorities) van een gebruiker op basis van de gebruikersnaam. Gooit een
     public Set<Authority> getAuthorities(String username) {
