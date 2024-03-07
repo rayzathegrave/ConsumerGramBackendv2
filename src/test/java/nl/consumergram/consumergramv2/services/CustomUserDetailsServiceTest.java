@@ -2,14 +2,11 @@ package nl.consumergram.consumergramv2.services;
 
 import nl.consumergram.consumergramv2.dtos.UserDto;
 import nl.consumergram.consumergramv2.models.Authority;
-import nl.consumergram.consumergramv2.services.CustomUserDetailsService;
-import nl.consumergram.consumergramv2.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -34,8 +31,8 @@ public class CustomUserDetailsServiceTest {
     @Test
     void loadUserByUsername() {
         // Arrange
-        String username = "testUsername";
-        String password = "testPassword";
+        var username = "testUsername";
+        var password = "testPassword";
         Authority authority = new Authority();
         authority.setAuthority("ROLE_USER");
         Set<Authority> authorities = new HashSet<>();
@@ -49,7 +46,7 @@ public class CustomUserDetailsServiceTest {
         when(userService.getUser(anyString())).thenReturn(userDto);
 
         // Act
-        UserDetails result = customUserDetailsService.loadUserByUsername(username);
+        var result = customUserDetailsService.loadUserByUsername(username);
 
         // Assert
         assertEquals(username, result.getUsername());
