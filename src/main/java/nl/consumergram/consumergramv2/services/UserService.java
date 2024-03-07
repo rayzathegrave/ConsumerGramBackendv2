@@ -110,16 +110,6 @@ public class UserService {
         userRepository.deleteById(username);
     }
 
-    //    Update het wachtwoord van een gebruiker.
-//    public UserDto updateUser(String username, UserDto newUser) {
-//        if (!userRepository.existsById(username)) throw new RecordNotFoundException();
-//        User user = userRepository.findById(username).get();
-//        user.setPassword(newUser.getPassword());
-//        userRepository.save(user);
-//        return newUser;
-//    }
-
-
     public UserDto updateUser(String username, UserDto dto) {
         // Fetch the user from the database
         User user = userRepository.findByUsername(username)
@@ -199,16 +189,13 @@ public class UserService {
 
     //    Zet een UserDto-object om naar een User.
     public User toUser(UserDto userDto) {
-
         var user = new User();
-
         user.setUsername(userDto.getUsername());
         user.setPassword(passwordEncoder.encode(userDto.password));
 //        user.setPassword(userDto.getPassword());
         user.setEnabled(userDto.getEnabled());
         user.setApikey(userDto.getApikey());
         user.setEmail(userDto.getEmail());
-
         return user;
     }
 
