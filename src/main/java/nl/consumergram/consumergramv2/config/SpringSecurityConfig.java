@@ -66,31 +66,34 @@ public class SpringSecurityConfig {
                                         //AUTHENTICATED
                                         .requestMatchers(HttpMethod.GET, "/authenticated").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                                         .requestMatchers(HttpMethod.POST, "/authenticate").permitAll()
-//BLOGPOSTS
+                                         //BLOGPOSTS
                                         .requestMatchers(HttpMethod.GET, "/blog-posts/{username}/{id}").permitAll()
                                         .requestMatchers(HttpMethod.GET, "/blog-posts/{username}").permitAll()
                                         .requestMatchers(HttpMethod.GET, "/blog-posts").permitAll()
                                         .requestMatchers(HttpMethod.POST, "/blog-posts/{username}").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                                         .requestMatchers(HttpMethod.DELETE, "/blog-posts/{username}/{id}").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-//IMAGE
+                                        //IMAGE
                                         .requestMatchers(HttpMethod.POST, "/image").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                                         .requestMatchers(HttpMethod.GET, "/image/{username}").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                                         .requestMatchers(HttpMethod.DELETE, "/image/{usename}").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-//USERS
+                                        //USERS
                                         .requestMatchers(HttpMethod.GET, "/users").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                                         .requestMatchers(HttpMethod.GET, "/users/{username}").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
                                         .requestMatchers(HttpMethod.POST, "/users/admin").hasAuthority("ROLE_ADMIN")
                                         .requestMatchers(HttpMethod.PUT, "/users/{username}").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                                         .requestMatchers(HttpMethod.DELETE, "/users/{username}").hasAuthority("ROLE_ADMIN")
-
+                                        //AUTHORITIES
                                         .requestMatchers(HttpMethod.GET, "/users/{username}/authorities").hasAuthority("ROLE_ADMIN")
                                         .requestMatchers(HttpMethod.POST, "/users/{username}/authorities").hasAuthority("ROLE_ADMIN")
                                         .requestMatchers(HttpMethod.DELETE, "/users/{username}/authorities/{authority}").hasAuthority("ROLE_ADMIN")
-//USERPROFILE
+                                        //USERPROFILE
                                         .requestMatchers(HttpMethod.GET, "/user-profile").permitAll()
                                         .requestMatchers(HttpMethod.GET, "/user-profile/{username}").permitAll()
                                         .requestMatchers(HttpMethod.POST, "/user-profile/{username}").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                                        //UPVOTE
+                                        .requestMatchers(HttpMethod.POST, "/upvotes").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                                        .requestMatchers(HttpMethod.GET, "/blog-posts/{id}/upvotes").permitAll()
 
 //
 //                                        .anyRequest().denyAll()

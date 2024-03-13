@@ -1,13 +1,10 @@
 package nl.consumergram.consumergramv2.controllers;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
 import nl.consumergram.consumergramv2.dtos.InputBlogpostDto;
 import nl.consumergram.consumergramv2.dtos.OutputBlogpostDto;
 import nl.consumergram.consumergramv2.models.BlogPost;
-import nl.consumergram.consumergramv2.models.ImageData;
-import nl.consumergram.consumergramv2.models.User;
+import nl.consumergram.consumergramv2.repositories.BlogPostRepository;
 import nl.consumergram.consumergramv2.services.BlogPostService;
 import nl.consumergram.consumergramv2.utils.Category;
 import org.springframework.http.HttpStatus;
@@ -19,17 +16,19 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 
 @RestController
 @RequestMapping("/blog-posts")
 public class BlogPostController {
-    private final BlogPostService blogPostService;
 
-    public BlogPostController(BlogPostService blogPostService) {
+    private final BlogPostService blogPostService;
+    private final BlogPostRepository blogPostRepository;
+
+    public BlogPostController(BlogPostService blogPostService, BlogPostRepository blogPostRepository) {
         this.blogPostService = blogPostService;
+        this.blogPostRepository = blogPostRepository;
     }
 
 
@@ -96,5 +95,14 @@ public class BlogPostController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/{id}/upvotes")
+    public ResponseEntity<Integer> getUpvoteCount(@PathVariable Long id) {
+        BlogPost blogPost = blogPostRepository.findById(id)
+                .orElseThrow(() -> new ExceptionController.ResourceNotFoundException("Blog post not found"));
 
+        return ResponseEntity.ok(blogPost.getUpvotes());
+    }
 }
+
+
+

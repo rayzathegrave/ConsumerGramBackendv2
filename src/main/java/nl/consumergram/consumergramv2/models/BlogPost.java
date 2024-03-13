@@ -22,6 +22,12 @@ public class BlogPost {
     private String type;
     private String price;
 
+    private int upvotes = 0;
+
+    public void incrementUpvotes() {
+        this.upvotes++;
+    }
+
     @Lob
     private byte[] imageData;
 
