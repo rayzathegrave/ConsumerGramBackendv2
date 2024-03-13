@@ -16,8 +16,8 @@ public class DatabaseLoader {
         return args -> {
             if (userRepository.findByUsername("admin").isEmpty()) {
                 User admin = new User();
-                admin.setUsername("admin");
-                admin.setPassword(passwordEncoder.encode("adminPassword"));
+                admin.setUsername("Testadmin");
+                admin.setPassword(passwordEncoder.encode("12345678%"));
 
                 Authority adminAuthority = new Authority();
                 adminAuthority.setAuthority("ROLE_ADMIN");
@@ -25,6 +25,18 @@ public class DatabaseLoader {
                 admin.getAuthorities().add(adminAuthority);
 
                 userRepository.save(admin);
+            }
+            if (userRepository.findByUsername("user").isEmpty()) {
+                User user = new User();
+                user.setUsername("Testgebruiker");
+                user.setPassword(passwordEncoder.encode("12345678%"));
+
+                Authority adminAuthority = new Authority();
+                adminAuthority.setAuthority("ROLE_USER");
+                adminAuthority.setUsername(user.getUsername()); // Set the username to the authority
+                user.getAuthorities().add(adminAuthority);
+
+                userRepository.save(user);
             }
         };
     }

@@ -61,7 +61,7 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests(auth ->
                                 auth
                                         // Wanneer je deze uncomment, staat je hele security open. Je hebt dan alleen nog een jwt nodig.
-                .requestMatchers("/**").permitAll()
+//                .requestMatchers("/**").permitAll()
 
                                         //AUTHENTICATED
                                         .requestMatchers(HttpMethod.GET, "/authenticated").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
@@ -83,12 +83,13 @@ public class SpringSecurityConfig {
                                         .requestMatchers(HttpMethod.POST, "/users/admin").hasAuthority("ROLE_ADMIN")
                                         .requestMatchers(HttpMethod.PUT, "/users/{username}").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                                         .requestMatchers(HttpMethod.DELETE, "/users/{username}").hasAuthority("ROLE_ADMIN")
+
                                         .requestMatchers(HttpMethod.GET, "/users/{username}/authorities").hasAuthority("ROLE_ADMIN")
                                         .requestMatchers(HttpMethod.POST, "/users/{username}/authorities").hasAuthority("ROLE_ADMIN")
                                         .requestMatchers(HttpMethod.DELETE, "/users/{username}/authorities/{authority}").hasAuthority("ROLE_ADMIN")
 //USERPROFILE
                                         .requestMatchers(HttpMethod.GET, "/user-profile").permitAll()
-                                        .requestMatchers(HttpMethod.GET, "/user-profile//{username}").permitAll()
+                                        .requestMatchers(HttpMethod.GET, "/user-profile/{username}").permitAll()
                                         .requestMatchers(HttpMethod.POST, "/user-profile/{username}").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
 
 //

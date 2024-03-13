@@ -1,38 +1,3 @@
-//UserService is verantwoordelijk voor het verwerken van gebruikersgerelateerde
-// logica en interactie met de database
-
-
-//Validatie:
-//        Voeg validatie toe voor invoergegevens in de createUser-methode om te controleren of vereiste velden zijn ingevuld en of het wachtwoord sterk genoeg is.
-//
-//        Encryptie van wachtwoorden:
-//        Voeg wachtwoordencryptie toe aan de User-entiteit. Momenteel wordt het wachtwoord rechtstreeks ingesteld en opgeslagen. Overweeg bijvoorbeeld bcrypt om wachtwoorden veilig op te slaan.
-//
-//        Update andere gebruikersgegevens:
-//        De updateUser-methode werkt momenteel alleen het wachtwoord bij. Overweeg om andere gebruikersgegevens zoals e-mail te kunnen bijwerken.
-//
-//        Gebruikersactiveringsfunctionaliteit:
-//        Voeg functionaliteit toe voor het activeren/deactiveren van gebruikersaccounts. Momenteel heeft de User-entiteit een enabled-veld, maar er wordt geen gebruik van gemaakt.
-//
-//        Logging:
-//        Voeg logging toe om belangrijke gebeurtenissen of fouten vast te leggen.
-//
-//        Paginering en sortering:
-//        Als het aantal gebruikers groot kan worden, overweeg dan paginering en sortering bij het ophalen van gebruikers.
-//
-//        Beveiliging:
-//        Overweeg verdere beveiligingscontroles, afhankelijk van de aard van je applicatie. Bijvoorbeeld het beperken van welke gebruikers welke acties kunnen uitvoeren.
-//
-//        Testen:
-//        Voeg tests toe om ervoor te zorgen dat de service correct werkt in verschillende scenario's. Unit-tests en integratietests kunnen helpen de betrouwbaarheid van je service te waarborgen.
-//
-//        Documentatie:
-//        Voeg documentatie toe, vooral als dit deel uitmaakt van een API. Geef duidelijk aan welke eindpunten beschikbaar zijn en welke parameters ze accepteren.
-//
-//        Transaction Management:
-//        Overweeg om transactiemanagement toe te voegen, vooral bij het uitvoeren van meerdere databasebewerkingen in één methode.
-//
-//        Het is belangrijk om functionaliteiten toe te voegen op basis van specifieke behoeften van je applicatie en je gebruikers.
 
 
 package nl.consumergram.consumergramv2.services;
@@ -137,8 +102,6 @@ public class UserService {
         userDto.setAuthorities(user.getAuthorities());
         return userDto;
     }
-
-
 
 
     //    Zet een User-object om naar een UserDto

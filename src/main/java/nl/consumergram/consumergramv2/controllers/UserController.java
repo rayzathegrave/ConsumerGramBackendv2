@@ -48,7 +48,9 @@ public class UserController {
 //    UserDto-object in het verzoek.
     @PostMapping
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto dto) {
-        ;
+        if (userService.userExists(dto.getUsername())) {
+            throw new BadRequestException("Username is already taken");
+        }
         // Let op: het password van een nieuwe gebruiker wordt in deze code nog niet encrypted opgeslagen.
         // Je kan dus (nog) niet inloggen met een nieuwe user.
         String newUsername = userService.createUser(dto);
@@ -70,14 +72,6 @@ public class UserController {
     }
 
 
-    //    Een HTTP PUT-endpoint op het pad "/users/{username}".
-//    Het bijwerkt een bestaande gebruiker op basis van de opgegeven gebruikersnaam en het meegeleverde
-//    UserDto-object in het verzoek.
-//    @PutMapping(value = "/{username}")
-//    public ResponseEntity<UserDto> updateUser(@PathVariable("username") String username, @RequestBody UserDto dto) {
-//        userService.updateUser(username, dto);
-//        return ResponseEntity.noContent().build();
-//    }
 
     @PutMapping(value = "/{username}")
     public ResponseEntity<UserDto> updateUser(@PathVariable("username") String username, @RequestBody UserDto dto) {
@@ -94,31 +88,5 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    //    Een HTTP GET-endpoint op het pad "/users/{username}/authorities". Het retourneert de autoriteiten
-//    (bijv. rollen) van een gebruiker.
-    @GetMapping(value = "/{username}/authorities")
-    public ResponseEntity<Object> getUserAuthorities(@PathVariable("username") String username) {
-        return ResponseEntity.ok().body(authorityService.getAuthorities(username));
-    }
 
-    //    Een HTTP POST-endpoint op het pad "/users/{username}/authorities". Het voegt een nieuwe autoriteit
-//    toe aan een gebruiker op basis van de opgegeven gebruikersnaam en de autoriteit in het verzoek
-    @PostMapping(value = "/{username}/authorities")
-    public ResponseEntity<Object> addUserAuthority(@PathVariable("username") String username, @RequestBody Map<String, Object> fields) {
-        try {
-            String authorityName = (String) fields.get("authority");
-            authorityService.addAuthority(username, authorityName);
-            return ResponseEntity.noContent().build();
-        } catch (Exception ex) {
-            throw new BadRequestException();
-        }
-    }
-
-    //    Een HTTP DELETE-endpoint op het pad "/users/{username}/authorities/{authority}". Het verwijdert een
-//    specifieke autoriteit van een gebruiker op basis van de opgegeven gebruikersnaam en autoriteit.
-    @DeleteMapping(value = "/{username}/authorities/{authority}")
-    public ResponseEntity<Object> deleteUserAuthority(@PathVariable("username") String username, @PathVariable("authority") String authority) {
-        authorityService.removeAuthority(username, authority);
-        return ResponseEntity.noContent().build();
-    }
 }
