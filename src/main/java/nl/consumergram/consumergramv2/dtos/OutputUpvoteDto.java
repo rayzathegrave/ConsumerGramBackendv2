@@ -9,5 +9,5 @@ public class OutputUpvoteDto {
     private String username;
     private Long blogPostId;
 
-    // getters and setters
+
 }

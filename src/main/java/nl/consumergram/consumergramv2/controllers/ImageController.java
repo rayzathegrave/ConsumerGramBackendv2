@@ -55,16 +55,6 @@ public class ImageController {
         }
     }
 
-//    Op deze manier werkt het op de JWT token
-//    @GetMapping
-//    public ResponseEntity<Object> downloadImage(UserDetails userDetails) throws IOException {
-//        byte[] image = imageDataService.downloadImage(userDetails.getUsername());
-//        Optional<User> user = userRepository.findById(userDetails.getUsername());
-//        Optional<ImageData> dbImageData = imageDataRepository.findById(user.get().getImageData().getId());
-//        MediaType mediaType = MediaType.valueOf(dbImageData.get().getType());
-////        Hier kan je specifieke datatypen meegeven, zoals image/jpeg/PDF etc.
-////        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
-//        return ResponseEntity.ok().contentType(mediaType).body(image);
-//    }
+
 
 }

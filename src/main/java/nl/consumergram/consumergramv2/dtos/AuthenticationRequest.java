@@ -15,8 +15,11 @@ public class AuthenticationRequest {
     private String username;
     private String password;
 
+    //    Deze werkt nu niet omdat hij dubbel staat, als ik er een weg haal dan zal alles in de frontend
+    //    nu ook een username en password verwachten. dit ga ik later toevoegrn voor nu is de jwt (en soms meer) genoeg.
     public AuthenticationRequest() {
     }
+
     public AuthenticationRequest(String username, String password) {
         this.username = username;
         this.password = password;
@@ -25,12 +28,15 @@ public class AuthenticationRequest {
     public String getUsername() {
         return username;
     }
+
     public void setUsername(String username) {
         this.username = username;
     }
+
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }

@@ -1,5 +1,6 @@
 package nl.consumergram.consumergramv2.controllers;
 
+import jakarta.validation.Valid;
 import nl.consumergram.consumergramv2.dtos.UserDto;
 import nl.consumergram.consumergramv2.exceptions.BadRequestException;
 import nl.consumergram.consumergramv2.services.AuthorityService;
@@ -10,7 +11,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
+
 
 
 //@CrossOrigin Geeft aan dat Cross-Origin Resource Sharing (CORS) is ingeschakeld,
@@ -47,7 +48,7 @@ public class UserController {
     //    HTTP POST-endpoint op het pad "/users". Het creëert een nieuwe gebruiker op basis van het meegeleverde
 //    UserDto-object in het verzoek.
     @PostMapping
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto dto) {
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto dto) {
         if (userService.userExists(dto.getUsername())) {
             throw new BadRequestException("Username is already taken");
         }
@@ -74,7 +75,7 @@ public class UserController {
 
 
     @PutMapping(value = "/{username}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable("username") String username, @RequestBody UserDto dto) {
+    public ResponseEntity<UserDto> updateUser( @PathVariable("username") String username, @Valid @RequestBody UserDto dto) {
         UserDto updatedUser = userService.updateUser(username, dto);
         return ResponseEntity.ok(updatedUser);
     }

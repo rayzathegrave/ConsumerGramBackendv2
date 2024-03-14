@@ -2,7 +2,7 @@ package nl.consumergram.consumergramv2.config;
 
 import nl.consumergram.consumergramv2.filter.JwtRequestFilter;
 import nl.consumergram.consumergramv2.services.CustomUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -10,20 +10,17 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
-/*  Deze security is niet de enige manier om het te doen.
-    In de andere branch van deze github repo staat een ander voorbeeld
- */
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig {
@@ -95,7 +92,7 @@ public class SpringSecurityConfig {
                                         .requestMatchers(HttpMethod.POST, "/upvotes").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                                         .requestMatchers(HttpMethod.GET, "/blog-posts/{id}/upvotes").permitAll()
 
-//
+
 //                                        .anyRequest().denyAll()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

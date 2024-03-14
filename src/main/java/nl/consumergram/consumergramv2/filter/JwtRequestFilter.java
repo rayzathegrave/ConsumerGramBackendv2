@@ -4,7 +4,6 @@ package nl.consumergram.consumergramv2.filter;
 
 import nl.consumergram.consumergramv2.services.CustomUserDetailsService;
 import nl.consumergram.consumergramv2.utils.JwtUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

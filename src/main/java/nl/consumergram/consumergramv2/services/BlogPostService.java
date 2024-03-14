@@ -68,10 +68,10 @@ public class BlogPostService {
         OutputBlogpostDto outputBlogpostDto = new OutputBlogpostDto();
 
         outputBlogpostDto.setCaption(blogPost.getCaption());
-//        outputBlogpostDto.setContent(blogPost.getContent());
+
         outputBlogpostDto.setUsername(blogPost.getUser().getUsername());
         outputBlogpostDto.setId(blogPost.getId());
-//        outputBlogpostDto.setFileContent(inputBlogpostDto.getFile().getBytes());
+
         outputBlogpostDto.setFileContent(ImageUtil.decompressImage(blogPost.getImageData()));
         outputBlogpostDto.setPrice(blogPost.getPrice());
 
@@ -90,10 +90,9 @@ public class BlogPostService {
                 .orElseThrow(() -> new EntityNotFoundException("Blog post not found with username " + username + " and id " + id));
 
         OutputBlogpostDto outputBlogpostDto = new OutputBlogpostDto();
-//        outputBlogpostDto.setTitle(blogPost.getTitle());
-//        outputBlogpostDto.setSubtitle(blogPost.getSubtitle());
+
         outputBlogpostDto.setCaption(blogPost.getCaption());
-//        outputBlogpostDto.setContent(blogPost.getContent());
+
         outputBlogpostDto.setUsername(blogPost.getUser().getUsername());
         outputBlogpostDto.setId(blogPost.getId());
         outputBlogpostDto.setPrice(blogPost.getPrice());
@@ -111,24 +110,22 @@ public class BlogPostService {
 
         for (BlogPost blogPost : blogPostList) {
             OutputBlogpostDto outputBlogpostDto = new OutputBlogpostDto();
-//            outputBlogpostDto.setTitle(blogPost.getTitle());
-//            outputBlogpostDto.setSubtitle(blogPost.getSubtitle());
+
             outputBlogpostDto.setCaption(blogPost.getCaption());
 
             outputBlogpostDto.setCategories(blogPost.getCategories());
             outputBlogpostDto.setYesNoOption(blogPost.isYesNoOption());
 
-//            outputBlogpostDto.setFileContent(blogPost.getImageData());
+
             outputBlogpostDto.setFileContent(ImageUtil.decompressImage(blogPost.getImageData()));
             outputBlogpostDto.setUsername(blogPost.getUser().getUsername());
             outputBlogpostDto.setId(blogPost.getId());
             outputBlogpostDto.setPrice(blogPost.getPrice());
             outputBlogpostDtoList.add(outputBlogpostDto);
 
-//            outputBlogpostDto.setCategories(blogPost.getCategories());
-//            outputBlogpostDto.setYesNoOption(blogPost.isYesNoOption());
+
         }
-        ;
+
         return outputBlogpostDtoList;
     }
 
@@ -141,10 +138,9 @@ public class BlogPostService {
 
         for (BlogPost blogPost : blogPostList) {
             OutputBlogpostDto outputBlogpostDto = new OutputBlogpostDto();
-//            outputBlogpostDto.setTitle(blogPost.getTitle());
-//            outputBlogpostDto.setSubtitle(blogPost.getSubtitle());
+
             outputBlogpostDto.setCaption(blogPost.getCaption());
-//            outputBlogpostDto.setContent(blogPost.getContent());
+
             outputBlogpostDto.setUsername(blogPost.getUser().getUsername());
             outputBlogpostDto.setId(blogPost.getId());
             outputBlogpostDto.setPrice(blogPost.getPrice());

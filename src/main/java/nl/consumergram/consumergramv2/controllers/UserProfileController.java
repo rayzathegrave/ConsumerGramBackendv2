@@ -1,5 +1,6 @@
 package nl.consumergram.consumergramv2.controllers;
 
+import jakarta.validation.Valid;
 import nl.consumergram.consumergramv2.dtos.InputUserProfileDto;
 import nl.consumergram.consumergramv2.dtos.OutputUserProfileDto;
 import nl.consumergram.consumergramv2.services.UserProfileService;
@@ -38,7 +39,7 @@ public class UserProfileController {
 
 
     @PostMapping("/{username}")
-    public ResponseEntity<OutputUserProfileDto> createUserProfile(@RequestPart("email") String email,
+    public ResponseEntity<OutputUserProfileDto> createUserProfile(@Valid @RequestPart("email") String email,
                                                                   @RequestPart("name") String name,
                                                                   @RequestPart("regio") String regio,
                                                                   @RequestPart("bio") String bio,

@@ -11,10 +11,7 @@ import java.util.Set;
 public class InputBlogpostDto {
     private Long id;
 
-//    private String title;
-//    private String subtitle;
     private String caption;
-//    private String content;
     private String username;
     private MultipartFile file;
     private String price;

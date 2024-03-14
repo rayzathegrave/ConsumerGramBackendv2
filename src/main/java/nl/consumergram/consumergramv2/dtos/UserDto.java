@@ -4,13 +4,17 @@ package nl.consumergram.consumergramv2.dtos;
 //UserDTO basisfunctionaliteit voor gebruikersbeheer
 
 
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import nl.consumergram.consumergramv2.models.Authority;
 
 import java.util.Set;
 
 public class UserDto {
 
+    @Size(max=50,min=1,message="criteria not met")
     public String username;
+    @Pattern(regexp="^(?=.*[!@#$%^&*]).{8,}$", message="criteria not met")
     public String password;
     public Boolean enabled;
     public String apikey;

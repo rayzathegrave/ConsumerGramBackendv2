@@ -51,11 +51,7 @@ public class BlogPostController {
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(blogPost);
     }
 
-//    @PostMapping("/{username}")
-//    public ResponseEntity<OutputBlogpostDto> createBlogPost(@RequestBody InputBlogpostDto blogPost) {
-//        OutputBlogpostDto createdPost = blogPostService.createBlogPost(blogPost);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(createdPost);
-//    }
+
 
 
     @PostMapping("/{username}")
