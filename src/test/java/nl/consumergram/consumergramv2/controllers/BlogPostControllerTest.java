@@ -12,12 +12,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.IOException;
 import java.util.Collections;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -36,11 +38,12 @@ class BlogPostControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+
     @BeforeEach
     void setUp() throws IOException {
         OutputBlogpostDto blogPost = new OutputBlogpostDto();
         blogPost.setUsername("testUsername");
-        when(blogPostService.getBlogPost(anyString(), any(Long.class))).thenReturn(blogPost);
+        when(blogPostService.getBlogPost(anyString(), anyLong())).thenReturn(blogPost);
         when(blogPostService.getBlogPostByUsername(anyString())).thenReturn(Collections.singletonList(blogPost));
         when(blogPostService.getAllBlogs()).thenReturn(Collections.singletonList(blogPost));
         when(blogPostService.createBlogPost(any(InputBlogpostDto.class))).thenReturn(blogPost);
@@ -65,13 +68,8 @@ class BlogPostControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = {"ROLE_ADMIN"})
     void createBlogPost() throws Exception {
-        InputBlogpostDto blogPost = new InputBlogpostDto();
-        blogPost.setUsername("testUsername");
-        blogPost.setCaption("testCaption");
-        blogPost.setPrice("testPrice");
-        blogPost.setYesNoOption(true);
-
         MockMultipartFile file = new MockMultipartFile("file", "test.jpg", MediaType.IMAGE_JPEG_VALUE, "test image content".getBytes());
         MockMultipartFile usernamePart = new MockMultipartFile("username", "", "text/plain", "testUsername".getBytes());
         MockMultipartFile captionPart = new MockMultipartFile("caption", "", "text/plain", "testCaption".getBytes());
@@ -90,8 +88,16 @@ class BlogPostControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = {"ROLE_ADMIN"})
     void deleteBlogPost() throws Exception {
         mockMvc.perform(delete("/blog-posts/testUsername/1"))
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @WithMockUser(authorities = {"ROLE_ADMIN"})
+    void getUpvoteCount() throws Exception {
+        mockMvc.perform(get("/blog-posts/upvotes"))
+                .andExpect(status().isOk());
     }
 }

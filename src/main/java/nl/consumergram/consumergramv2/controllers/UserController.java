@@ -81,6 +81,7 @@ public class UserController {
     }
 
 
+
     //    Een HTTP DELETE-endpoint op het pad "/users/{username}". Het verwijdert een gebruiker op basis van de
 //    opgegeven gebruikersnaam.
     @DeleteMapping(value = "/{username}")

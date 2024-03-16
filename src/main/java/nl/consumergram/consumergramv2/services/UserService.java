@@ -73,21 +73,19 @@ public class UserService {
     }
 
     public UserDto updateUser(String username, UserDto dto) {
-        // Fetch the user from the database
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with username " + username));
 
-        // Update the user fields
         user.setEmail(dto.getEmail());
         user.setUsername(dto.getUsername());
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
-        // ... update other fields as necessary
+        // Check if the password field in the incoming UserDto is null or empty
+        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
 
-        // Save the updated user back to the database
         User updatedUser = userRepository.save(user);
 
-        // Convert the updated User entity to UserDto and return it
         UserDto updatedUserDto = convertToDto(updatedUser);
         return updatedUserDto;
     }

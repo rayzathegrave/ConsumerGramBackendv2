@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
@@ -50,12 +51,14 @@ class UserControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = {"ROLE_ADMIN"})
     void getUsers() throws Exception {
         mockMvc.perform(get("/users"))
                 .andExpect(status().isOk());
     }
 
     @Test
+    @WithMockUser(authorities = {"ROLE_ADMIN"})
     void getUser() throws Exception {
         mockMvc.perform(get("/users/testUsername"))
                 .andExpect(status().isOk());
@@ -64,10 +67,10 @@ class UserControllerTest {
     @Test
     void createUser_whenUsernameNotTaken() throws Exception {
         UserDto userDto = new UserDto();
-        userDto.setUsername("newUsername");
-        userDto.setPassword("newPassword");
+        userDto.setUsername("existingUsername");
+        userDto.setPassword("12345678%");
 
-        when(userService.userExists(anyString())).thenReturn(false);
+        when(userService.userExists(anyString())).thenReturn(false); // Mock user does not exist
         when(userService.createUser(any(UserDto.class))).thenReturn(userDto.getUsername());
 
         mockMvc.perform(post("/users")
@@ -80,7 +83,7 @@ class UserControllerTest {
     void createUser_whenUsernameAlreadyExists() throws Exception {
         UserDto userDto = new UserDto();
         userDto.setUsername("existingUsername");
-        userDto.setPassword("newPassword");
+        userDto.setPassword("12345678%");
 
         when(userService.userExists(anyString())).thenReturn(true); // Mock user already exists
 
@@ -91,10 +94,11 @@ class UserControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = {"ROLE_ADMIN"})
     void updateUser() throws Exception {
         UserDto userDto = new UserDto();
         userDto.setUsername("testUsername");
-        userDto.setPassword("testPassword");
+        userDto.setPassword("123456789%");
 
         mockMvc.perform(put("/users/testUsername")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -105,12 +109,14 @@ class UserControllerTest {
 
 
     @Test
+    @WithMockUser(authorities = {"ROLE_ADMIN"})
     void deleteUser() throws Exception {
         mockMvc.perform(delete("/users/testUsername"))
                 .andExpect(status().isNoContent());
     }
 
     @Test
+    @WithMockUser(authorities = {"ROLE_ADMIN"})
     void createAdmin() throws Exception {
         UserDto userDto = new UserDto();
         userDto.setUsername("testAdmin");
