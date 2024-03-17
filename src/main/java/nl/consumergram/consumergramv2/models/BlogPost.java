@@ -6,7 +6,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 import nl.consumergram.consumergramv2.utils.Category;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -21,6 +23,9 @@ public class BlogPost {
     private String name;
     private String type;
     private String price;
+
+    @OneToMany(mappedBy = "blogPost", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Upvote> upvotesList = new ArrayList<>();
 
     private int upvotes = 0;
 
